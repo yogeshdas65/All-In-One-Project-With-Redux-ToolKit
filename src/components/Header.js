@@ -1,14 +1,30 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { CgTally } from "react-icons/cg";
+import { fetchSearchCocktails } from "../redux/features/cocktailSlice";
+import { useDispatch } from "react-redux";
 
 const Header = () => {
+    const [search, setSearch] = useState("");
+    const searchTermRef = useRef(null);
+    const dispatch = useDispatch();
+
+    const handleChange = () => {
+       
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const searchText = searchTermRef.current.value;
+        dispatch(fetchSearchCocktails({ searchText }));
+    };
+
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container-fluid">
                     <Link className="navbar-brand" to="/">
-                        <CgTally color="red"/> All In One Website
+                        <CgTally color="red" /> LiquidLuxe 
                     </Link>
                     <button
                         className="navbar-toggler"
@@ -46,10 +62,12 @@ const Header = () => {
                                 </Link>
                             </li>
                         </ul>
-                        <form className="d-flex">
+                        <form onSubmit={handleSubmit} className="d-flex">
                             <input
                                 className="form-control me-2"
-                                type="search"
+                                type="text"
+                                ref={searchTermRef}
+                                onChange={handleChange}
                                 placeholder="Search"
                                 aria-label="Search"
                             />
